@@ -68,7 +68,7 @@ export default function ShowPet() {
       Array(pets.length)
         .fill(0)
         .map((i) => React.createRef()),
-    []
+    [pets]
   )
 
   const updateCurrentIndex = (val:number) => {
@@ -116,7 +116,7 @@ export default function ShowPet() {
         {pets.map((pet, index) => (
           <TinderCard
             ref={childRefs[index]}
-            className="swipe overflow-hidden rounded-xl shadow-lg"
+            className="swipe overflow-hidden rounded-xl shadow-lg pb-4 bg-white"
             key={pet.name}
             preventSwipe={['up', 'down']}
             swipeRequirementType="position"
@@ -132,7 +132,7 @@ export default function ShowPet() {
               <div className="font-bold text-xl text-gray-700 mb-2">
                 {pet.name}, {pet.gender}, {pet.age}
               </div>
-              <p className="text-gray-400 text-sm h-[10rem] break-all">
+              <p className="text-gray-400 text-sm h-[10rem] break-words">
                 {pet.description}
               </p>
             </div>

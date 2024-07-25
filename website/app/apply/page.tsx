@@ -2,6 +2,7 @@
 import RadioButton from './_component/radio_button'
 import TextField from './_component/text_field'
 import Checkbox from './_component/checkbox'
+import Image from 'next/image';
 
 export default function ApplyNow() {
   const houseTypes = [
@@ -51,10 +52,13 @@ export default function ApplyNow() {
   return (
     <div className="container mx-auto mt-24 max-w-4xl px-4">
       <div className="relative isolate overflow-hidden bg-gray-900 py-18 sm:py-24 rounded-xl">
-        <img
+        
+        <Image
           alt=""
-          src="adoption.jpg"
+          src="/adoption.jpg"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
+          width={1920}
+          height={1080}
         />
         <div className="mx-auto max-w-7xl p-4 lg:px-8 bg-black bg-opacity-40">
           <div className="mx-auto max-w-2xl lg:mx-0">
