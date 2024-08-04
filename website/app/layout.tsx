@@ -141,7 +141,7 @@ export default function RootLayout({
                     <span className="sr-only">Pawsitive Connections</span>
                     <Image
                       alt="Pawsitive Connections"
-                      src="pawsitive-logo.png"
+                      src="/pawsitive-logo.png"
                       className="h-8 w-auto"
                       width={150}
                       height={48}

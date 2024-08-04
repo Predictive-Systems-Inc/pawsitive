@@ -8,9 +8,18 @@ interface Choice {
 interface CheckboxProps {
   question: string
   choices: Choice[]
+  selected: string[]
+  onChange: (value: string, checked: boolean) => void
+  errorMessage: string | undefined
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ question, choices }) => {
+const Checkbox: React.FC<CheckboxProps> = ({
+  question,
+  choices,
+  selected,
+  onChange,
+  errorMessage
+}) => {
   return (
     <fieldset>
       <legend className="sr-only">{question}</legend>
@@ -28,21 +37,23 @@ const Checkbox: React.FC<CheckboxProps> = ({ question, choices }) => {
                 <div className="flex items-center">
                   <input
                     id={choice.id}
-                    name={choice.id}
+                    name={question}
                     type="checkbox"
+                    checked={selected.includes(choice.id)}
+                    onChange={(e) => onChange(choice.id, e.target.checked)}
                     className="h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-600"
                   />
                 </div>
                 <div className="text-sm leading-6">
-                  <label
-                    htmlFor={choice.id}
-                    className=" text-gray-900"
-                  >
+                  <label htmlFor={choice.id} className=" text-gray-900">
                     {choice.title}
                   </label>
                 </div>
               </div>
             ))}
+            {errorMessage && (
+              <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
+            )}
           </div>
         </div>
       </div>
@@ -50,4 +61,4 @@ const Checkbox: React.FC<CheckboxProps> = ({ question, choices }) => {
   )
 }
 
-export default Checkbox;
+export default Checkbox
