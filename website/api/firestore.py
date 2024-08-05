@@ -13,6 +13,12 @@
 # limitations under the License.
 
 from firebase_admin import firestore
+from dotenv import load_dotenv
+import pathlib
+import os
+
+basedir = pathlib.Path(__file__).parents[1]
+load_dotenv(basedir / ".env")
 
 # pylint: disable=invalid-name
 def init_firestore_client():
@@ -45,7 +51,7 @@ def init_firestore_client_service_account():
     from firebase_admin import firestore
 
     # Use a service account.
-    cred = credentials.Certificate('/Users/mlmnl/Documents/GitHub/pawsitive/website/paws-4fdad-firebase-adminsdk-ipx7n-66e1dcb67d.json')
+    cred = credentials.Certificate(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
 
     app = firebase_admin.initialize_app(cred)
 

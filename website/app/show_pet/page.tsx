@@ -69,7 +69,7 @@ export default function ShowPet() {
   // fetch pets from server
   useEffect(() => {
     fetchPets();
-  })
+  }, [])
 
   const childRefs = useMemo<React.RefObject<any>[]>(
     () =>
