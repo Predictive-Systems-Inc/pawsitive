@@ -49,11 +49,3 @@ def get_pet(user_name: str, user_id: str):
             pet.at[index, 'method'] = 'user collaborative filtering'
         return pet.to_dict(orient="records")
 
-    # create matrix of users and pets
-
-    # # get a random pet
-    # pet = pets.sample(3)
-    # # return as json
-    # return pet.to_dict(orient="records")
-
-

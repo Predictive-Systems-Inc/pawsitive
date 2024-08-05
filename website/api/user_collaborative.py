@@ -60,6 +60,11 @@ def user_complete(df_utility, k):
         Performs user-based collaborative filtering on the 
         utility matrix `df_utility` with top `k` similar users.
     """
+
+    # ensure no duplicate index
+    # Remove duplicates by keeping the first occurrence
+    df_utility = df_utility[~df_utility.index.duplicated(keep='first')]
+
     # Calculate the cosine similarity matrix
     similarity_matrix = pd.DataFrame(
         index=df_utility.index, columns=df_utility.index)
@@ -102,15 +107,3 @@ def user_complete(df_utility, k):
     # Sort by increasing user or itemId if distance is the same
     completed_matrix = completed_matrix.sort_index(axis=0).sort_index(axis=1)
     return completed_matrix
-
-
-def recommend_pets(user_name,  n):
-    
-    
-    # get all items not yet rated by the user
-    not_rated = df_utility.loc[user][df_utility.loc[user].isnull()].index
-    if not_rated.empty:
-        return None
-
-    # return the index to the n highest rated items
-    return df_completed.loc[user, not_rated].sort_values(ascending=False).head(n).index
