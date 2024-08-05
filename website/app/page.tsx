@@ -53,7 +53,7 @@ export default function Homepage() {
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">
                 Are you looking for the perfect pet to fit your lifestyle? Our
-                service uses AI to understand your preferences and each pet's
+                service uses AI to understand your preferences and each pet&apos;s
                 unique traits, ensuring a perfect match. Let us help you find
                 your ideal furry friend and create a lasting bond.
               </p>
