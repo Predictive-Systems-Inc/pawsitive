@@ -24,8 +24,7 @@ const nextConfig = {
             : "/api/openapi.json",
       },
     ];
-  },
-  output: 'standalone',
+  }
 };
 
 module.exports = nextConfig;
