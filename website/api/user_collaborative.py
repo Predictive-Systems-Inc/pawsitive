@@ -44,15 +44,13 @@ def build_user_item_matrix(pet_names):
     """
     # get all the users with swipes in firebase
     user_swipes = read_user_with_swipes()
-    user_names = [user["name"] for user in user_swipes]
+    user_ids = list(set([user["userId"] for user in user_swipes]))
+    print(user_ids) 
     # create a DataFrame of users and pets from user_swipes and pet_names
-    user_swipes_df = pd.DataFrame(index=user_names, columns=pet_names)
-    for name, user in zip(user_names,user_swipes):
-        swipes = user["swipe"]
-        for swipe in swipes:
-            pet_name = swipe["petName"]
-            like_pet = swipe["direction"] == "right"
-            user_swipes_df.at[name, pet_name] = 1 if like_pet else 0
+    user_swipes_df = pd.DataFrame(index=user_ids, columns=pet_names)
+    # convert to matrix
+    for swipe in user_swipes:
+        user_swipes_df.at[swipe["userId"], swipe["petName"]] = 1 if swipe["direction"] == "right" else 0
     return user_swipes_df
 
 def user_complete(df_utility, k):
@@ -60,11 +58,6 @@ def user_complete(df_utility, k):
         Performs user-based collaborative filtering on the 
         utility matrix `df_utility` with top `k` similar users.
     """
-
-    # ensure no duplicate index
-    # Remove duplicates by keeping the first occurrence
-    df_utility = df_utility[~df_utility.index.duplicated(keep='first')]
-
     # Calculate the cosine similarity matrix
     similarity_matrix = pd.DataFrame(
         index=df_utility.index, columns=df_utility.index)

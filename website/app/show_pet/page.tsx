@@ -47,7 +47,9 @@ export default function ShowPet() {
   const fetchPets = async () => {
     const user_id = getQueryParam('user_id');
     const user_name = getQueryParam('user_name');
-    fetch('/api/pets?user_id='+user_id+'&user_name='+user_name)
+    const training = getQueryParam('training') || 'False';
+    setLoading(true);
+    fetch('/api/pets?user_id='+user_id+'&user_name='+user_name+'&training='+training)
       .then((res) => res.json())
       .then((data:any) => {
         const parsedPets = data.map((pet: { images: string }) => ({
@@ -98,6 +100,7 @@ export default function ShowPet() {
     const userId = getQueryParam('user_id')
     const docRef = doc(db, 'user_profile/'+userId+'/swipes', nameToDelete);
     await setDoc(docRef, {
+      userId,
       petName: nameToDelete,
       direction,
       timestamp: serverTimestamp()

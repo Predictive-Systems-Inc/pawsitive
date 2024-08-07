@@ -62,21 +62,12 @@ def read_user_with_swipes():
 
     # app = firebase_admin.initialize_app()
     db = firestore.client()
-
-    # [START read_data]
-    users_ref = db.collection('user_profile')
-    users_stream = users_ref.stream()
+    swipes = db.collection_group('swipes').stream()
     user_swipes = []
-    for user in users_stream:
-        user_data = user.to_dict()
-        # get the swipes subcollection for this user
-        swipes_ref = db.collection('user_profile').document(user.id).collection('swipes')
-        swipes_query = swipes_ref.stream()
-        swipes_data = []
-        for swipe in swipes_query:
-            swipes_data.append(swipe.to_dict())
-        user_swipes.append({"name": user_data["fullname"], "swipe": swipes_data})
+    for swipe in swipes:
+            user_swipes.append(swipe.to_dict())
     return user_swipes
+
     # [END read_data]
 
 def get_user_swipes(user_id):
