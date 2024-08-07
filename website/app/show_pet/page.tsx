@@ -166,7 +166,7 @@ export default function ShowPet() {
                   <div className="font-bold text-xl text-gray-700 mb-2">
                     {pet.name}, {pet.sex}, {pet.age}
                   </div>
-                  <p className="text-gray-400 text-sm h-[10rem] break-words">
+                  <p className="text-gray-400 text-sm h-[13rem] break-words">
                     {pet.description}
                   </p>
                 </div>
