@@ -52,9 +52,7 @@ def init_firestore_client_service_account():
 
     # Use a service account.
     cred = credentials.Certificate(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"))
-
     app = firebase_admin.initialize_app(cred)
-
     db = firestore.client()
     # [END init_firestore_client_service_account]
 
@@ -75,9 +73,7 @@ def read_user_with_swipes():
         swipes_ref = db.collection('user_profile').document(user.id).collection('swipes')
         swipes_query = swipes_ref.stream()
         swipes_data = []
-        print(user.id)
         for swipe in swipes_query:
-            print(swipe)
             swipes_data.append(swipe.to_dict())
         user_swipes.append({"name": user_data["fullname"], "swipe": swipes_data})
     return user_swipes
