@@ -92,7 +92,7 @@ export default function ShowPet() {
 
 
   // set last direction and decrease current index
-  const swiped = async (direction: string, nameToDelete: string, index: number) => {
+  const swiped = async (direction: string, nameToDelete: string, method: string, index: number) => {
     setLastDirection(direction)
     updateCurrentIndex(index - 1)
     console.log(` ${nameToDelete} (${direction})`)
@@ -102,6 +102,7 @@ export default function ShowPet() {
     await setDoc(docRef, {
       userId,
       petName: nameToDelete,
+      method,
       direction,
       timestamp: serverTimestamp()
     }, { merge: true });
@@ -152,7 +153,7 @@ export default function ShowPet() {
                 preventSwipe={['up', 'down']}
                 swipeRequirementType="position"
                 swipeThreshold={200}
-                onSwipe={(dir) => swiped(dir, pet.name, index)}
+                onSwipe={(dir) => swiped(dir, pet.name, pet.method, index)}
                 onCardLeftScreen={() => outOfFrame(pet.name, index)}
               >
                 <div

@@ -17,7 +17,7 @@ export default function RootLayout({
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Adopt A Pet', href: '/apply' },
-    { name: 'List Your Pet for Adoption', href: '#' },
+    { name: 'Analyze', href: '/analyze' },
     { name: 'Donate', href: '#' }
   ]
 

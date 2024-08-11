@@ -19,10 +19,10 @@ export interface ApplicationFormData {
   currentPetTypes: string[]
   petsVaccinated: string
   petsNeutered: string
-  preferredPetType: string
-  preferredGender: string
-  preferredAge: string
-  preferredPersonality: string[]
+  // preferredPetType: string
+  // preferredGender: string
+  // preferredAge: string
+  // preferredPersonality: string[]
 }
 
 interface Choice {
@@ -44,11 +44,11 @@ export default function ApplyNow() {
     hasPets: '',
     currentPetTypes: [],
     petsVaccinated: '',
-    petsNeutered: '',
-    preferredPetType: '',
-    preferredGender: '',
-    preferredAge: '',
-    preferredPersonality: []
+    petsNeutered: ''
+    // preferredPetType: '',
+    // preferredGender: '',
+    // preferredAge: '',
+    // preferredPersonality: []
   })
 
   const [errors, setErrors] = useState<
@@ -204,10 +204,14 @@ export default function ApplyNow() {
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               Apply For Pet Adoption
             </h2>
-            <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-600">
-              Please complete this form to ensure the safety and well-being of
-              both you and the pet. <br />
-              Your detailed responses help us make the best match possible.
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-gray-600">
+              Dear Classmates and Friends, <br /><br/>
+              Kindly answer this form truthfully based on your personal preference
+              as we will be using this for analysis in our report. The data will be
+              used for academic purposes only in MSDS - ML1.<br/><br/>
+              Thank you!! <br/>
+              - Learning Team 3
+
             </p>
             <p className="mt-10 max-w-2xl text-sm text-red-500 italic">
               Note: All fields are required.
@@ -288,6 +292,13 @@ export default function ApplyNow() {
                 onChange={(value) => handleRadioChange('petsAllowed', value)}
                 errorMessage={errors.petsAllowed}
               />
+              {
+                formData.petsAllowed === 'no' && (
+                  <p className="text-sm text-red-600">
+                    Warning, you may not qualify to own a pet, but please continue...
+                  </p>
+                )
+              }
               <RadioButton
                 question="Do you live alone?"
                 choices={yesNo}
@@ -313,6 +324,13 @@ export default function ApplyNow() {
                 onChange={(value) => handleRadioChange('allergies', value)}
                 errorMessage={errors.allergies}
               />
+              {
+                formData.allergies === 'yes' && (
+                  <p className="text-sm text-red-600">
+                    Warning, pets may trigger allergies for those who are sensitive. But please continue...
+                  </p>
+                )
+              }
               {formData.liveAlone === 'no' && (
                 <RadioButton
                   question="Do all members of the family support your decision to adopt a pet?"
@@ -324,6 +342,13 @@ export default function ApplyNow() {
                   errorMessage={errors.familySupport}
                 />
               )}
+              {
+                formData.familySupport === 'no' && (
+                  <p className="text-sm text-red-600">
+                    Please discuss this matter within the family first. But please continue...
+                  </p>
+                )
+              }
             </div>
           </div>
 
@@ -376,7 +401,7 @@ export default function ApplyNow() {
               )}
             </div>
           </div>
-
+{/* 
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900">
               Pet Preference:
@@ -421,7 +446,7 @@ export default function ApplyNow() {
                 errorMessage={errors.preferredPersonality}
               />
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">

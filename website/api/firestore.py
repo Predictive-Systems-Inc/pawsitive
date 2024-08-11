@@ -70,10 +70,18 @@ def read_user_with_swipes():
 
     # [END read_data]
 
-def get_user_swipes(user_id):
-    import firebase_admin
+def get_user_profile(user_id):
     from firebase_admin import firestore
+    db = firestore.client()
 
+    # [START get_user_profile]
+    user_profile_ref = db.collection('user_profile').document(user_id)
+    user_profile = user_profile_ref.get()
+    return user_profile.to_dict()
+    # [END get_user_profile]
+
+def get_user_swipes(user_id):
+    from firebase_admin import firestore
     db = firestore.client()
 
     # [START get_user_swipes]
