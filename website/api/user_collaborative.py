@@ -38,6 +38,24 @@ def adj_cos(a, b):
 
     return dot_product / (norm_a * norm_b)
 
+def jaccard_similarity(set1, set2):
+    # Convert input lists of index values of 1
+    set1 = set(set1[set1 == 1].index)
+    set2 = set(set2[set2 == 1].index)
+
+    # Calculate the intersection and union of the sets
+    intersection = set1.intersection(set2)
+    union = set1.union(set2)
+    
+    denominator = len(union)
+    if denominator == 0:
+        return -1
+    # Compute the Jaccard similarity
+    jaccard_index = len(intersection) / denominator
+    
+    return jaccard_index
+
+
 def build_user_item_matrix(pet_names):
     """
       Accepts a list of pet names and returns a DataFrame of users and pets
@@ -61,17 +79,20 @@ def get_top_k_similar_users(user_id, user_swipes_df, k):
         index=user_swipes_df.index, columns=user_swipes_df.index)
     for i in user_swipes_df.index:
         for j in user_swipes_df.index:
-            similarity_matrix.loc[i, j] = adj_cos(
+            similarity_matrix.loc[i, j] = jaccard_similarity(
                 user_swipes_df.loc[i], user_swipes_df.loc[j])
 
     # the diagonal of the similarity matrix should be nan to exclude the user itself
-    np.fill_diagonal(similarity_matrix.values, np.nan)
+    # np.fill_diagonal(similarity_matrix.values, np.nan)
 
     # Get the k most similar users
     similar_users = similarity_matrix.loc[user_id].sort_values(ascending=False, kind='mergesort')
+    print(similar_users)
     
     # return only top k with positive values 
-    return similar_users[similar_users > 0].head(k)
+    # NOTE: Remove NaN values and the user itself
+    # similar_users = similar_users[similar_users > 0]
+    return similar_users.head(k)
 
 def user_complete(df_utility, k):
     """
@@ -83,7 +104,7 @@ def user_complete(df_utility, k):
         index=df_utility.index, columns=df_utility.index)
     for i in df_utility.index:
         for j in df_utility.index:
-            similarity_matrix.loc[i, j] = adj_cos(
+            similarity_matrix.loc[i, j] = jaccard_similarity(
                 df_utility.loc[i], df_utility.loc[j])
 
     # the diagonal of the similarity matrix should be nan to exclude the user itself
@@ -100,7 +121,7 @@ def user_complete(df_utility, k):
             if pd.isnull(df_utility.loc[user, item]):
                 # Get the k most similar users
                 similar_users = similarity_matrix.loc[user].sort_values(ascending=False, kind='mergesort')
-                # NOTE: We are excluding not similar users with negative values
+                # NOTE: We are excluding not similar users with zero or negative values
                 similar_users = similar_users[similar_users > 0].head(k)
                 similar_users = similar_users[similar_users.index.isin(df_utility[item].dropna().index)]
                                 

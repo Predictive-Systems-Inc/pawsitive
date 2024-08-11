@@ -32,6 +32,9 @@ export default function AnalyzeUser() {
   }
 
   const fetchUserSwipes = async (userId: string) => {
+    if (!userId) {
+      return
+    }
     try {
       const q = query(
         collection(db, 'user_profile', userId, 'swipes'),
@@ -49,10 +52,19 @@ export default function AnalyzeUser() {
     }
   }
 
-  const fetchUserSimilarity = async (user_id: string) => {
-    fetch('/api/analyze?user_id=' + user_id)
+  const fetchUserSimilarity = async (userId: string) => {
+    // if user_id is empty, return
+    if (!userId) {
+      return
+    }
+    fetch('/api/analyze?user_id=' + userId)
       .then((res) => res.json())
       .then((data) => {
+        console.log('Similarity data: ', data)
+        if (data.length === 0) {
+          setSimilarUsers([])
+          return
+        }
         // parse data as json
         data = JSON.parse(data)
         const similar: any[] = []
@@ -148,7 +160,7 @@ export default function AnalyzeUser() {
                         {user.name}
                       </td>
                       <td className="whitespace-nowrap py-2 text-sm text-gray-500 sm:pl-0 text-center">
-                        {user.similarity.toFixed(2)}
+                        {user.similarity === "NaN"? NaN: user.similarity.toFixed(2)}
                       </td>
                       {Object.keys(user.swipes).map((key) => (
                         <td
@@ -191,12 +203,6 @@ export default function AnalyzeUser() {
                     className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                   >
                     No
-                  </th>
-                  <th
-                    scope="col"
-                    className="whitespace-nowrap py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                  >
-                    Date/Time
                   </th>
                   <th
                     scope="col"

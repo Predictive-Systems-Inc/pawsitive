@@ -43,8 +43,8 @@ def analyze(user_id: str):
         user_swipes_df = build_user_item_matrix(pet_names)
         no_swipe = user_swipes_df.loc[user_id][user_swipes_df.loc[user_id].isnull()].index
        
-        if no_swipe.empty:
-            return []
+        # if no_swipe.empty:
+        #     return []
         # return top 3 similar users based on user collaborative filtering
         top_k = get_top_k_similar_users(user_id, user_swipes_df, 10).to_dict()
 
@@ -53,6 +53,10 @@ def analyze(user_id: str):
 
         # convert all NaN to "NaN" to avoid errors in JSON serialization
         user_swipes_df = user_swipes_df.fillna("NaN")
+        # convert NaN in  top_k to "NaN" to avoid errors in JSON serialization
+        for k in top_k.keys():
+            if np.isnan(top_k[k]):
+                top_k[k] = "NaN"
 
         result = {}
         # add the swipes of the top k users
