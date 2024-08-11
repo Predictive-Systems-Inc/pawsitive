@@ -9,7 +9,6 @@ import {
 } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import db from '../../lib/firestore'
-import { format } from 'date-fns/format'
 
 export default function AnalyzeUser() {
   const [users, setUsers] = useState<DocumentData[]>([])
@@ -224,9 +223,6 @@ export default function AnalyzeUser() {
                   <tr key={swipe.uid}>
                     <td className="whitespace-nowrap py-2 text-sm text-gray-500 sm:pl-0">
                       {index + 1}
-                    </td>
-                    <td className="whitespace-nowrap py-2 text-sm text-gray-500 sm:pl-0">
-                      {format(swipe.timestamp.toDate(), 'yyyy-MM-dd HH:mm:ss')}
                     </td>
                     <td className="whitespace-nowrap px-2 py-2 text-sm  text-gray-900">
                       {swipe.petName}
