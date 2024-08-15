@@ -27,6 +27,7 @@ export default function ShowPet() {
   const [pets, setPets] = useState<Pet[]>([])
   const [currentIndex, setCurrentIndex] = useState(pets.length - 1)
   const [lastDirection, setLastDirection] = useState('')
+  const [lastBatch, setLastBatch] = useState(false)
   // used for outOfFrame closure
   const currentIndexRef = useRef(currentIndex)
 
@@ -45,6 +46,11 @@ export default function ShowPet() {
   };
 
   const fetchPets = async () => {
+    if (lastBatch) {
+      console.log('No more pets to show');
+      setPets([]);
+      return;
+    }
     const user_id = getQueryParam('user_id');
     const user_name = getQueryParam('user_name');
     const training = getQueryParam('training') || 'False';
@@ -96,6 +102,9 @@ export default function ShowPet() {
     setLastDirection(direction)
     updateCurrentIndex(index - 1)
     console.log(` ${nameToDelete} (${direction})`)
+    if (method == 'most liked' || method == 'least liked') {
+      setLastBatch(true)
+    }
     // get the userId from the URL under userId
     const userId = getQueryParam('user_id')
     const docRef = doc(db, 'user_profile/'+userId+'/swipes', nameToDelete);
@@ -142,6 +151,16 @@ export default function ShowPet() {
 
   return (
     <div className="container mx-auto max-w-4xl px-4 ">
+      { pets.length == 0 && (
+          <div className="relative isolate lg:w-[24rem] w-[20rem] mt-[8rem] text-gray-700 mx-auto justify-center items-center">
+        <h1 className="text-center text-2xl mt-8">Thank you!</h1>
+        <h2 className="text-gray-500 text-center mt-2">
+              We will get back to you with the most appropriate pets for you.
+        </h2>
+
+        </div>
+        )
+      }
       {pets.length > 0 && (
         <>
           <div className="relative isolate lg:w-[24rem] w-[20rem] mt-[8rem] mx-auto justify-center items-center">

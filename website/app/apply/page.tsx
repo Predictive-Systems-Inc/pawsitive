@@ -57,7 +57,7 @@ export default function ApplyNow() {
 
   const houseTypes = [
     { id: 'condo', title: 'Condo' },
-    { id: 'townhouse', title: 'Townhouse/Apartment' },
+    { id: 'townhouse', title: 'Townhouse' },
     { id: 'house with backyard', title: 'House with backyard' }
   ]
   const yesNo = [

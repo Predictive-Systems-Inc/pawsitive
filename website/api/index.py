@@ -104,7 +104,7 @@ def get_pet(user_name: str, user_id: str, training: bool = False):
 
         # if none to recommend, let's use the least liked pets
         if top_recommendations.empty:
-            top_recommendations = find_least_liked_pets(user_swipes_df, 5)
+            top_recommendations = find_least_liked_pets(user_swipes_df, 8)
             method = 'least'
             print('Least Liked:', top_recommendations)
 
