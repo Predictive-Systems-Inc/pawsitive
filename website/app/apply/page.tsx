@@ -34,7 +34,7 @@ export default function ApplyNow() {
 
   const [formData, setFormData] = useState<ApplicationFormData>({
     fullname: '',
-    about: '',
+    about: '--',
     houseType: '',
     petsAllowed: '',
     liveAlone: '',
@@ -207,8 +207,9 @@ export default function ApplyNow() {
             <p className="mt-4 max-w-2xl text-sm leading-6 text-gray-600">
               Dear Classmates and Friends, <br /><br/>
               Kindly answer this form truthfully based on your personal preference
-              as we will be using this for analysis in our report. The data will be
-              used for academic purposes only in MSDS - ML1.<br/><br/>
+              as we will be using this for analysis in our report. Please note that 
+              your names may be included in the presentation to showcase user feedback.
+              The data will be used for academic purposes only in MSDS - ML1.<br/><br/>
               Thank you!! <br/>
               - Learning Team 3
 
@@ -242,7 +243,7 @@ export default function ApplyNow() {
                   )}
                 </div>
               </div>
-
+{/* 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                 <label
                   htmlFor="about"
@@ -266,7 +267,7 @@ export default function ApplyNow() {
                     <p className="mt-2 text-sm text-red-600">{errors.about}</p>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
           <div>

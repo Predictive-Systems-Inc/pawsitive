@@ -5,7 +5,7 @@ import pandas as pd
 import json
 import numpy as np
 
-from api.firestore import get_user_profile, get_user_swipes, init_firestore_client_service_account
+from api.firestore import get_all_users, get_user_profile, get_user_swipes, init_firestore_client_service_account
 from api.user_collaborative import build_user_item_matrix, get_top_k_similar_users, user_complete, find_least_liked_pets
 from google.api_core.datetime_helpers import DatetimeWithNanoseconds
 app = FastAPI()
@@ -25,6 +25,32 @@ class CustomJSONEncoder(json.JSONEncoder):
 @app.get("/api/python")
 def hello_world():
     return {"message": "Hello World"}
+
+@app.get("/api/export")
+def export():
+    pets = ["Sasha", "Whitey", "Meldy", "Haley", "Lucy", "Cow", "Novy", "Banoi", 
+        "Tiki", "Heath", "Cornelia", "Friendly", "Skyler", "Bridget Boy", "Cleo", "Foggy",
+         "Pumi", "Sawyer", "Post", "JL", "Arya", "Shadow", "Laura", "Tender", "Princess Anna", 
+         "IG", "Walter White", "Magdalena", "Momo", "Alice", "Lot", "Tala", "Mita",
+         "Eagle", "Menchie", "Tali", "Usagi", "Tiktok", "Blessing", "Violet"]
+    user_profiles = get_all_users()
+    # for all user_profiles, change timestamp to string
+    user_data = []
+    for user in user_profiles:
+        # user['timestamp'] = user['timestamp'].strftime('%Y-%m-%dT%H:%M:%S')
+        user_swipes = get_user_swipes(user['uid'])
+        for pet in pets:
+            user[pet] = np.NaN
+            for swipe in user_swipes:
+                if pet == swipe['petName']:
+                    user[pet] = 1 if swipe['direction'] == 'right' else 0
+                    break
+        user_data.append(user)
+    
+    user_df = pd.DataFrame(user_data)
+    user_df.to_csv("pet_export.csv")
+
+    return "success"
 
 @app.get("/api/analyze")
 def analyze(user_id: str):

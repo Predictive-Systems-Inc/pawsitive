@@ -70,6 +70,26 @@ def read_user_with_swipes():
 
     # [END read_data]
 
+def get_all_users():
+    from firebase_admin import firestore
+    db = firestore.client()
+
+    # [START get_user_profile]
+    user_profile_ref = db.collection('user_profile')
+    user_query = user_profile_ref.stream()
+    user_data = []
+    for user in user_query:
+        # Access the document ID
+        user_id = user.id        
+        # Convert the document to a dictionary
+        user_dict = user.to_dict()
+        # Add the user ID to the dictionary
+        user_dict['uid'] = user_id
+        # Append the dictionary with the user ID to the list
+        user_data.append(user_dict)
+    return user_data
+    # [END get_user_profile]
+    
 def get_user_profile(user_id):
     from firebase_admin import firestore
     db = firestore.client()
